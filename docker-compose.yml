@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  kanastra_cobranca:
+    container_name: kanastra_cobranca
+    build:
+      context: ./kanastra-cobranca/.
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data/cobranca:/home/node/data
+      - ./data/cobranca/.env:/home/node/.env
+
+  kanastra_charging:
+    build:
+      context: ./kanastra-charging/.
+      dockerfile: Dockerfile
+    deploy:
+      mode: replicated
+      replicas: 2
+    volumes:
+      - ./data/charging:/home/node/data
+      - ./data/charging/.env:/home/node/.env
+
+  redis:
+    container_name: kanastra_redis
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    
+  postgres:
+    container_name: kanastra_postgres
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: kanastra
+      POSTGRES_PASSWORD: kanastra
+      POSTGRES_DB: kanastra
+
+volumes:
+  kanastra_charging:
