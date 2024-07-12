@@ -17,6 +17,10 @@ REDIS_PORT=6379
 Feito as configurações basta iniciar com o comando `docker-compose up -d`
 
 
+## Dica
+
+Para facilitar os testes foi criado um swagger para testar as rotas, basta acessar `http://localhost:3000/api`
+
 # Funcionamento resumido
 
 1. O usuário faz o upload do arquivo CSV com os boletos utilizando a rota `POST /billing/charge` com o arquivo em `multipart/form-data` no campo `file`. Obs: não foi realizado controle de acessos para simplificar
